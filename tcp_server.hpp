@@ -26,7 +26,7 @@ public:
     /// are we running?
     bool is_running() const;
 
-    /// set callback
+    /// set callback to be invoked on client connections
     void set_callback(callback_t callback);
 
 private:
