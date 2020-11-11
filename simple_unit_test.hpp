@@ -29,7 +29,7 @@ namespace util::test {
 }
 
 #define ASSERT_EQUAL(a, b)                                              \
-    {   std::stringstream ss; ss << "failure at line " << __LINE__ << "(a: actual, e: expected)\na: " << (a) << "\ne: " << (b); \
+    {   std::stringstream ss; ss << "failure at line " << __LINE__ << "(a: actual, e: expected)\na: [" << (a) << "]\ne: [" << (b) << "]"; \
         ++util::test::total_tests;                                      \
         if (!util::test::equal((a), (b)))                               \
         {                                                               \
