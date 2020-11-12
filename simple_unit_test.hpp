@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <typeinfo>
 
 namespace util::test {
 
@@ -29,7 +30,7 @@ namespace util::test {
 }
 
 #define ASSERT_EQUAL(a, b)                                              \
-    {   std::stringstream ss; ss << "failure at line " << __LINE__ << "(a: actual, e: expected)\na: [" << (a) << "]\ne: [" << (b) << "]"; \
+    {   std::stringstream ss; ss << "failure at line " << __LINE__ << " (a: actual, e: expected)\na: [" << (a) << "]\ne: [" << (b) << "]"; \
         ++util::test::total_tests;                                      \
         if (!util::test::equal((a), (b)))                               \
         {                                                               \
@@ -39,6 +40,26 @@ namespace util::test {
             ++util::test::passed_tests;                                 \
         }                                                               \
     }
+
+#define ASSERT_EXCEPTION(f, e) {                                        \
+    std::stringstream ss; ss << "failure at line " << __LINE__ << ": expected exception of type: " << typeid(e).name() << "\n"; \
+    ++util::test::total_tests;                                          \
+    bool passed = false;                                                \
+    try {                                                               \
+        f();                                                            \
+    }                                                                   \
+    catch (const e& exception)                                          \
+    {                                                                   \
+        passed = true;                                                  \
+    }                                                                   \
+    if (!passed)                                                        \
+    {                                                                   \
+        ++util::test::failed_tests;                                     \
+        std::cout << ss.str() << "\n";                                  \
+    } else {                                                            \
+        ++util::test::passed_tests;                                     \
+    }                                                                   \
+}
 
 
 

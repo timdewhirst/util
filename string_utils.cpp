@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <cctype>
 
+namespace util {
+
 /// trim whitespace from the start and end of \a s
 std::string trim(std::string s)
 {
@@ -59,6 +61,8 @@ std::vector<std::string> split(const std::string& s, char c)
     return result;
 }
 
+} // end of namespace
+
 
 #if defined(TEST_MAIN)
 
@@ -89,6 +93,7 @@ int main(int argc, char* argv[])
 {
     using namespace std::string_literals;
     using namespace util::test;
+    using namespace util;
 
     ASSERT_EQUAL( trim("trim"), "trim"s );
     ASSERT_EQUAL( trim(" trim"), "trim"s );
