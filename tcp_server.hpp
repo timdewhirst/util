@@ -9,7 +9,7 @@
 /// a simple TCP server:
 /// - accepts all connections
 /// - calls the registered callback when a new connection is accepted
-/// - the callback will be passed an instance of tcp_client
+/// - the callback will be passed an instance of tcp_socket
 /// - the callback will happen in a thread context owned by server
 class tcp_server
 {

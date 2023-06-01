@@ -41,6 +41,9 @@ namespace util::test {
         }                                                               \
     }
 
+#define ASSERT_TRUE(a) ASSERT_EQUAL(a, true);
+#define ASSERT_FALSE(a) ASSERT_EQUAL(a, false);
+
 #define ASSERT_EXCEPTION(f, e) {                                        \
     std::stringstream ss; ss << "failure at line " << __LINE__ << ": expected exception of type: " << typeid(e).name() << "\n"; \
     ++util::test::total_tests;                                          \
