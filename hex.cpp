@@ -41,6 +41,11 @@ namespace util::test {
         return (uint32_t)i;
     }
 
+    size_t operator""_sz(unsigned long long int i)
+    {
+        return (size_t)i;
+    }
+
     // convenience wrappers for testing to_hex
     std::array<char, 2> to_hex(uint8_t v)
     {
@@ -90,16 +95,20 @@ int main(int argc, char* argv[])
 {
     using namespace util::test;
 
+    char buffer[128];
+
     ASSERT_EQUAL( to_hex(0x00_u8), "00" );
     ASSERT_EQUAL( to_hex(0xff_u8), "ff" );
     ASSERT_EQUAL( to_hex(0x0f_u8), "0f" );
     ASSERT_EQUAL( to_hex(0xf0_u8), "f0" );
+    ASSERT_EQUAL( util::to_hex(&buffer[0], 0xf0_u8), 2_sz );
 
     ASSERT_EQUAL( to_hex(0x0000_u16), "0000" );
     ASSERT_EQUAL( to_hex(0x0001_u16), "0001" );
     ASSERT_EQUAL( to_hex(0x0010_u16), "0010" );
     ASSERT_EQUAL( to_hex(0x0100_u16), "0100" );
     ASSERT_EQUAL( to_hex(0x1000_u16), "1000" );
+    ASSERT_EQUAL( util::to_hex(&buffer[0], 0x1000_u16), 4_sz );
 
     ASSERT_EQUAL( to_hex(0x00000000_u32), "00000000" );
     ASSERT_EQUAL( to_hex(0x00000001_u32), "00000001" );
@@ -111,6 +120,7 @@ int main(int argc, char* argv[])
     ASSERT_EQUAL( to_hex(0x01000000_u32), "01000000" );
     ASSERT_EQUAL( to_hex(0x10000000_u32), "10000000" );
     ASSERT_EQUAL( to_hex(0xffffffff_u32), "ffffffff" );
+    ASSERT_EQUAL( util::to_hex(&buffer[0], 0xffffffff_u32), 8_sz );
 
     return 0;
 }
