@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
     ASSERT_EQUAL( to_hex(0xffffffff_u32), "ffffffff" );
     ASSERT_EQUAL( util::to_hex(&buffer[0], 0xffffffff_u32), 8_sz );
 
-    return 0;
+    return failed_tests;
 }
 
 #endif

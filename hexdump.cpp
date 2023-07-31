@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
     ASSERT_EQUAL( hexdump(&data[0], 19), "00000000  00 01 02 03 04 68 65 6c  6c 6f 2c 20 77 6f 72 6c  |.....hello, worl|\n"
                                          "00000010  64 21 00                                          |d!.|\n"s );
 
-    return 0;
+    return failed_tests;
 }
 
 #endif

@@ -10,7 +10,7 @@
 namespace util {
 
     /// char buffer[2];
-    /// to_hex((uint8_t)0xaf, &buffer[0]); // -> "af"
+    /// to_hex($buffer[0], (uint8_t)0xaf); // -> buffer contains "af"
     ///
     /// output is big-endian i.e. 0x1234 -> "1234"
     ///

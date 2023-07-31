@@ -4,11 +4,12 @@ A set of (hopefully) handy snippets in C++/STL; designed to be as minimal as pos
 
 ## simple_unit_test
 
-A trivial and very lightweight alternative to gtest/doctest/... Designed to give the absolute bare minimum: an assertion with description on failure, and a summary:
+A trivial and very lightweight alternative to gtest/doctest/... Designed to give the absolute bare minimum: an assertion with description on failure, and a summary on exit:
 
 ```c++
 // std
 #include <cstring>
+#include <stdexcept>
 
 // local
 #include "simple_unit_test.hpp"
@@ -21,6 +22,11 @@ namespace util::test {
         return strncmp(a, b, 4) == 0;
     }
 
+}
+
+void thrower()
+{
+    throw std::runtime_error("failed!");
 }
 
 int main(int argc, char* argv[])
@@ -41,12 +47,16 @@ int main(int argc, char* argv[])
         ASSERT_EQUAL(a, b);       // this passes thanks to the custom equal function
     }
 
-    return 0;
+    ASSERT_TRUE( true );
+    ASSERT_FALSE( false );
+    ASSERT_EXCEPTION( thrower, std::runtime_error );
+
+    return util::tests::failed_tests;
 }
 ```
 
 ```sh
-> ./a.out 
+> ./a.out
 failure at line 21(a: actual, e: expected)
 a: 1
 e: 2
@@ -68,7 +78,7 @@ The test is performed by calling `equal` for the two arguments; this function ca
 Writes an array of data to a std::string, in the same format as `hexdump -C`:
 
 ```
-> hexdump -C test.bin 
+> hexdump -C test.bin
 00000000  bf a0 98 88 e2 45 2b c0  81 ef aa 63 e6 42 f1 3e  |.....E+....c.B.>|
 00000010  7c 31 69 33 e4 77 e9 f5  40 9a 36 8f 62 92 34 24  ||1i3.w..@.6.b.4$|
 00000020  42 c0 f4 08 91 c8 14 a6  05 c0 9b b4 6a ca c3 4e  |B...........j..N|
@@ -78,7 +88,7 @@ Writes an array of data to a std::string, in the same format as `hexdump -C`:
 00000060  27 0d 7b aa 15 f4 31 90  cb c6 bc b2 a2 d4 4c 68  |'.{...1.......Lh|
 00000070  60 d8 ac e5 eb 42 cd 17  c0 0c 9e e4 2e cf 48 25  |`....B........H%|
 00000080
-> ./a.out < test.bin 
+> ./a.out < test.bin
 00000000  bf a0 98 88 e2 45 2b c0  81 ef aa 63 e6 42 f1 3e  |.....E+....c.B.>|
 00000010  7c 31 69 33 e4 77 e9 f5  40 9a 36 8f 62 92 34 24  ||1i3.w..@.6.b.4$|
 00000020  42 c0 f4 08 91 c8 14 a6  05 c0 9b b4 6a ca c3 4e  |B...........j..N|
@@ -121,7 +131,7 @@ int main(int argc, char* argv[])
 * result should be:
 
 ```
-> ./a.out 
+> ./a.out
 total tests: 23, passed: 23, failed: 0
 ```
 
