@@ -1,19 +1,13 @@
 
-TESTABLE = hex hexdump string_utils
-CXX_FLAGS = -Wall -Werror -std=c++17 -DTEST_MAIN
+TESTABLE = hex_test hexdump_test string_utils_test time_test
+CXX_FLAGS = -Wall -Werror -std=c++20 -DTEST_MAIN
 LD_FLAGS =
 
-hexdump: hexdump.cpp
-	$(CXX) -o hexdump $(CXX_FLAGS) $<
+.PHONY: all
+all: $(TESTABLE)
 
-hex: hex.cpp
-	$(CXX) -o hex $(CXX_FLAGS) $<
-
-string_utils: string_utils.cpp
-	$(CXX) -o string_utils $(CXX_FLAGS) $<
-
-.PHONY: tests
-tests: $(TESTABLE)
+.PHONY: test
+test: $(TESTABLE)
 	@for t in $(TESTABLE); do \
 		printf "%s" "testing $$t: "; \
 		./$$t; \
@@ -26,3 +20,15 @@ clean:
 	rm -rf a.out*
 	rm -f *~
 	rm -rf *.dSYM
+
+hexdump_test: hexdump_test.cpp
+	$(CXX) -o hexdump_test $(CXX_FLAGS) $<
+
+hex_test: hex_test.cpp
+	$(CXX) -o hex_test $(CXX_FLAGS) $<
+
+string_utils_test: string_utils_test.cpp
+	$(CXX) -o string_utils_test $(CXX_FLAGS) $<
+
+time_test: time_test.cpp
+	$(CXX) -o time_test $(CXX_FLAGS) $<
