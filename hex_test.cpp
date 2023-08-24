@@ -1,9 +1,6 @@
 
 #include "hex.hpp"
 
-
-#if defined(TEST_MAIN)
-
 // std
 #include <cstring>
 #include <iostream>
@@ -124,5 +121,3 @@ int main(int argc, char* argv[])
 
     return failed_tests;
 }
-
-#endif

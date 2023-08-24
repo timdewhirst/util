@@ -7,29 +7,22 @@
 
 namespace util {
 
-    /// a generalized wrapper for RAII:
-    /// - adopts or gets/creates a resource on construction
-    /// - cleans up/releases a resource on destruction
+    /// a generalized wrapper for RAII managing ownership/cleanup 
+    /// of an instance of \tparam T t:
+    /// - adopts a resource on construction
+    /// - cleans up the resource on destruction
     ///
-    /// must supply appropriate callables for get and
+    /// must supply appropriate callable for 
     /// cleanup of the managed resource
-    template <typename T>
+    template <
+        typename T,
+        typename = std::enable_if_t<std::is_pointer_v<T>>
+    >
     class RAII
     {
     public:
         using CleanupF = std::function<void(T)>;
         
-        /// create the managed resource and also cleanup
-        template <
-            typename CreateF,
-            typename = std::enable_if_t<
-                std::is_invocable_r_v<T, CreateF>>
-        >
-        RAII( CreateF create, CleanupF cleanup )
-            : _managed( create() )
-            , _cleanup( cleanup )
-        {}
-
         /// adopt an already existing resource and supply
         /// a cleanup function
         RAII( T __managed, CleanupF cleanup )
@@ -37,15 +30,23 @@ namespace util {
             , _cleanup( cleanup )
         {}
 
+        /// cannot copy
+        RAII(const RAII&) = delete;
+        RAII& operator=(const RAII&) = delete;
+
+        // can move
+        RAII(RAII&&) = default;
+        RAII& operator=(RAII&) = default;
+
         ~RAII()
         {
             _cleanup(_managed);
         }
 
-        T managed() const { return _managed; }
+        T& managed() const { return _managed; }
 
     private:
-        T _managed;
+        mutable T _managed;
         CleanupF _cleanup;
     };
 

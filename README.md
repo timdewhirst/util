@@ -1,10 +1,18 @@
 # Utils
 
-A set of (hopefully) handy snippets in C++/STL; designed to be as minimal as possible, and can be used by including the header and building the corresponding source (if required).
+A set of handy snippets in C++/STL - designed to be as minimal as possible - 
+that can be used by including the header and building the corresponding source (if required).
+
+File naming scheme:
+- `*.hpp`: declaration
+- `*.cpp`: (optional) implementation
+- `*_test.cpp`: test implementation
+- `*_example.cpp`: (optional) standalone example
 
 ## simple_unit_test
 
-A trivial and very lightweight alternative to gtest/doctest/... Designed to give the absolute bare minimum: an assertion with description on failure, and a summary on exit:
+A trivial and very lightweight alternative to gtest/doctest/... Designed to give the absolute
+bare minimum: an assertion with description on failure, and a summary on exit:
 
 ```c++
 // std

@@ -1,8 +1,6 @@
 
 #include "time.hpp"
 
-#if defined(TEST_MAIN)
-
 // std
 #include <cstdio>
 #include <cstdlib>
@@ -75,7 +73,7 @@ int main(int argc, char* argv[])
     using namespace std::literals;
 
     // check we match the system time
-    ASSERT_EQUAL( get_epoch_from_system(), util::get_ns_since_epoch()/1000000000 );
+    ASSERT_EQUAL( get_epoch_from_system(), util::get_ns_since_epoch()/1'000'000'000 );
 
     // check we get different and successive numbers
     std::vector<uint64_t> times(10000);
@@ -94,5 +92,3 @@ int main(int argc, char* argv[])
 
     return failed_tests;
 }
-
-#endif
