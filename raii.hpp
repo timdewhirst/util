@@ -35,12 +35,30 @@ namespace util {
         RAII& operator=(const RAII&) = delete;
 
         // can move
-        RAII(RAII&&) = default;
-        RAII& operator=(RAII&) = default;
+        RAII(RAII&& m)
+        {
+            _managed = m._managed;
+            _cleanup = m._cleanup;
+
+            m._managed = nullptr;
+            m._cleanup = {};
+        }
+
+        RAII& operator=(RAII& m)
+        {
+            _managed = m._managed;
+            _cleanup = m._cleanup;
+
+            m._managed = nullptr;
+            m._cleanup = {};
+
+            return *this;
+        }
 
         ~RAII()
         {
-            _cleanup(_managed);
+            if ( _cleanup )
+                _cleanup(_managed);
         }
 
         T& managed() const { return _managed; }

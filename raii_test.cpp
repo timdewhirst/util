@@ -26,13 +26,31 @@ int main(int argc, char* argv[])
     using namespace util::test;
 
     // check we can tidyup
-    auto a = new A{};        
     {
-        RAII< A* > guard( a, [](auto a){ delete a; });
-        ASSERT_EQUAL( a, guard.managed() );
-        ASSERT_EQUAL( static_a_count, 1 );
+        auto a = new A{};        
+        {
+            RAII< A* > guard( a, [](auto a){ delete a; });
+            ASSERT_EQUAL( a, guard.managed() );
+            ASSERT_EQUAL( static_a_count, 1 );
+        }
+        ASSERT_EQUAL( static_a_count, 0 );
     }
-    ASSERT_EQUAL( static_a_count, 0 );
+
+    // check we can move
+    {
+        auto a = new A{};        
+        {
+            RAII< A* > guard( a, [](auto a){ delete a; });
+            ASSERT_EQUAL( a, guard.managed() );
+            ASSERT_EQUAL( static_a_count, 1 );
+
+            auto moved_guard{ std::move(guard) };
+            ASSERT_EQUAL( a, moved_guard.managed() );
+            ASSERT_EQUAL( (A*)nullptr, guard.managed() );
+            ASSERT_EQUAL( static_a_count, 1 );
+        }
+        ASSERT_EQUAL( static_a_count, 0 );
+    }
 
     return failed_tests;
 }
