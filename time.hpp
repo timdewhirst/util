@@ -3,6 +3,7 @@
 
 // std
 #include <chrono>
+#include <stdexcept>
 
 #include <string.h>
 #include <time.h>

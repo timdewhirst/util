@@ -1,7 +1,9 @@
 # Utils
 
-A set of handy snippets in C++/STL - designed to be as minimal as possible - 
+A set of handy snippets in C++/STL - designed to be as minimal as possible -
 that can be used by including the header and building the corresponding source (if required).
+
+Requires C++20.
 
 File naming scheme:
 - `*.hpp`: declaration

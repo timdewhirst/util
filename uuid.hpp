@@ -13,18 +13,19 @@ namespace util {
     ///  0                   1                   2                   3
     ///  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
     /// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    /// |                          time_low                             |
+    /// |                          time_low                             | (a)
     /// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    /// |       time_mid                |         time_hi_and_version   |
+    /// |       time_mid                |         time_hi_and_version   | (b, c)
     /// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    /// |clk_seq_hi_res |  clk_seq_low  |         node (0-1)            |
+    /// |clk_seq_hi_res |  clk_seq_low  |         node (0-1)            | (d, e, f)
     /// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    /// |                         node (2-5)                            |
+    /// |                         node (2-5)                            | (g)
     /// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     ///
-    /// string is output little-endian in format:
+    /// data is stored big-endian; string output is in standard grouped
+    /// format:
     ///
-    /// aabbccdd-eeff-gghh-iijj-kkllmmnnoopp
+    /// aaaaaaaa-bbbb-cccc-ddee-ffffgggggggg
     struct uuid
     {
         std::array<char, 16> data = {};

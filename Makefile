@@ -1,10 +1,11 @@
 
-TESTABLE = hex_test hexdump_test string_utils_test time_test raii_test
+TESTABLE = hex_test hexdump_test string_utils_test time_test raii_test uuid_test
+EXAMPLES = hexdump_example simple_unit_test_example uuid_example
 CXX_FLAGS = -Wall -Werror -std=c++20 -DTEST_MAIN
 LD_FLAGS =
 
 .PHONY: all
-all: $(TESTABLE)
+all: $(TESTABLE) $(EXAMPLES)
 
 .PHONY: test
 test: $(TESTABLE)
@@ -16,10 +17,19 @@ test: $(TESTABLE)
 .PHONY: clean
 .SILENT: clean
 clean:
-	rm -f $(TESTABLE)
+	rm -f $(TESTABLE) $(EXAMPLES)
 	rm -rf a.out*
 	rm -f *~
 	rm -rf *.dSYM
+
+hexdump_example: hexdump.cpp hexdump_example.cpp
+	$(CXX) -o hexdump_example $(CXX_FLAGS) $^
+
+simple_unit_test_example: simple_unit_test_example.cpp
+	$(CXX) -o simple_unit_test_example $(CXX_FLAGS) $^
+
+uuid_example: uuid.cpp uuid_example.cpp
+	$(CXX) -o uuid_example $(CXX_FLAGS) $^
 
 hexdump_test: hexdump.cpp hexdump_test.cpp
 	$(CXX) -o hexdump_test $(CXX_FLAGS) $^
@@ -35,3 +45,6 @@ time_test: time_test.cpp
 
 raii_test: raii_test.cpp
 	$(CXX) -o raii_test $(CXX_FLAGS) $<
+
+uuid_test: uuid.cpp uuid_test.cpp
+	$(CXX) -o uuid_test $(CXX_FLAGS) $^

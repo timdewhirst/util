@@ -10,8 +10,7 @@
 namespace util::test {
 
     /// default equality check, proxies to operator==
-    template <typename T>
-    inline bool equal(const T& lhs, const T& rhs)
+    inline bool equal(const auto& lhs, const auto& rhs)
     {
         return lhs == rhs;
     }
@@ -29,22 +28,36 @@ namespace util::test {
 
 }
 
-#define ASSERT_EQUAL(a, b)                                              \
-    {   auto __a = (a);                                                 \
-        auto __b = (b);                                                 \
-        std::stringstream ss; ss << "failure at line " << __LINE__ << " (a: actual, e: expected)\na: [" << __a << "]\ne: [" << __b << "]"; \
-        ++util::test::total_tests;                                      \
-        if (!util::test::equal(__a, __b))                               \
-        {                                                               \
-            ++util::test::failed_tests;                                 \
-            std::cout << ss.str() << "\n";                              \
-        } else {                                                        \
-            ++util::test::passed_tests;                                 \
-        }                                                               \
+#define ASSERT_EQUAL(a, b) {                                            \
+    auto __a = (a);                                                     \
+    auto __b = (b);                                                     \
+    std::stringstream ss; ss << "failure at line " << __LINE__ << " (a: actual, e: expected)\na: [" << __a << "]\ne: [" << __b << "]"; \
+    ++util::test::total_tests;                                          \
+    if (util::test::equal(__a, __b))                                    \
+    {                                                                   \
+        ++util::test::passed_tests;                                     \
+    } else {                                                            \
+        ++util::test::failed_tests;                                     \
+        std::cout << ss.str() << "\n";                                  \
+    }                                                                   \
     }
 
-#define ASSERT_TRUE(a) ASSERT_EQUAL(a, true);
-#define ASSERT_FALSE(a) ASSERT_EQUAL(a, false);
+#define ASSERT_NEQUAL(a, b) {                                           \
+    auto __a = (a);                                                     \
+    auto __b = (b);                                                     \
+    std::stringstream ss; ss << "failure at line " << __LINE__ << " (a: actual, e: expected)\na: [" << __a << "]\ne: [" << __b << "]"; \
+    ++util::test::total_tests;                                          \
+    if (!util::test::equal(__a, __b))                                   \
+    {                                                                   \
+        ++util::test::passed_tests;                                     \
+    } else {                                                            \
+        ++util::test::failed_tests;                                     \
+        std::cout << ss.str() << "\n";                                  \
+    }                                                                   \
+    }
+
+#define ASSERT_TRUE(a) ASSERT_EQUAL(a, true)
+#define ASSERT_FALSE(a) ASSERT_EQUAL(a, false)
 
 #define ASSERT_EXCEPTION(f, e) {                                        \
     std::stringstream ss; ss << "failure at line " << __LINE__ << ": expected exception of type: " << typeid(e).name() << "\n"; \

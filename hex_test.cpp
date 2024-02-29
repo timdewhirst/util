@@ -7,41 +7,11 @@
 #include <stdexcept>
 
 // local
+#include "literals.hpp"
 #include "simple_unit_test.hpp"
 
 
 namespace util::test {
-
-    // convenience user defined literals to ensure value
-    // is of the correct type
-    uint8_t operator""_u8(unsigned long long int i)
-    {
-        if ( i<0 || i>0xff )
-            throw std::runtime_error("i out of range");
-
-        return (uint8_t)i;
-    }
-
-    uint16_t operator""_u16(unsigned long long int i)
-    {
-        if ( i<0 || i>0xffff )
-            throw std::runtime_error("i out of range");
-
-        return (uint16_t)i;
-    }
-
-    uint32_t operator""_u32(unsigned long long int i)
-    {
-        if ( i<0 || i>0xffffffff )
-            throw std::runtime_error("i out of range");
-
-        return (uint32_t)i;
-    }
-
-    size_t operator""_sz(unsigned long long int i)
-    {
-        return (size_t)i;
-    }
 
     // convenience wrappers for testing to_hex
     std::array<char, 2> to_hex(uint8_t v)

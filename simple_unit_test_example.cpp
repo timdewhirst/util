@@ -1,16 +1,20 @@
 
 // std
 #include <cstring>
+#include <string>
 
 // local
 #include "simple_unit_test.hpp"
 
+using namespace std::string_literals;
+
 namespace util::test {
 
     // custom equality check for char arrays with length 4
-    bool equal(const char (&a)[4], const char (&b)[4])
+    template <size_t N>
+    bool equal(const char (&a)[N], const char (&b)[N])
     {
-        return strncmp(a, b, 4) == 0;
+        return strncmp(a, b, N) == 0;
     }
 
 }
@@ -18,20 +22,9 @@ namespace util::test {
 int main(int argc, char* argv[])
 {
     ASSERT_EQUAL(1, 1);
-    ASSERT_EQUAL(1, 2);
-    ASSERT_EQUAL("foo!", "foo!"); // comparing pointers
-
-    {
-        const char a[] = "foo!";
-        const char b[] = "foo!";
-        ASSERT_EQUAL(a, b);         // note this failure; unexpected!
-    }
-
-    {
-        const char a[] = "foo";
-        const char b[] = "foo";
-        ASSERT_EQUAL(a, b);         // this now passes thanks to the custom equal function
-    }
+    ASSERT_NEQUAL(1, 2);
+    ASSERT_EQUAL("foo!", "foo!");          // comparing pointers
+    ASSERT_EQUAL("foozot!"s, "foozot!"s);  // comparing strings
 
     return 0;
 }
