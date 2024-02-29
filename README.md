@@ -11,6 +11,11 @@ File naming scheme:
 - `*_test.cpp`: test implementation
 - `*_example.cpp`: (optional) standalone example
 
+To build:
+- `make clean`: cleanup
+- `make all`: build tests and examples, doesn't run tests
+- `make test`: builds and runs tests
+
 ## simple_unit_test
 
 A trivial and very lightweight alternative to gtest/doctest/... Designed to give the absolute
@@ -79,10 +84,6 @@ total tests: 5, passed: 3, failed: 2
 
 The test is performed by calling `equal` for the two arguments; this function can be overloaded to support specific scenarios. The overloaded functions must be in the `util::test` namespace.
 
-### Building
-
-* g++ -g -Wall -Werror -std=c++17 simple_unit_test_main.cpp
-
 ## hexdump
 
 Writes an array of data to a std::string, in the same format as `hexdump -C`:
@@ -128,22 +129,6 @@ int main(int argc, char* argv[])
 }
 ```
 
-### Building
-
-* g++ -g -Wall -Werror -std=c++17 hexdump_main.cpp hexdump.cpp
-
-### Testing
-
-`hexdump` has unit testing built in, using the simple_unit_test framework. To build the unit tests:
-
-* g++ -g -Wall -Werror -std=c++17 -DTEST_MAIN hexdump.cpp
-* run the resulting binary
-* result should be:
-
-```
-> ./a.out
-total tests: 23, passed: 23, failed: 0
-```
 
 ## TCP client/server
 
@@ -196,16 +181,11 @@ int main(int argc, char* argv[])
 }
 ```
 
-### Building
-
-* g++ -Wall -Werror -g -std=c++17 -o server server_main.cpp tcp_server.cpp tcp_socket.cpp -lpthread
-* g++ -Wall -Werror -g -std=c++17 -o client client_main.cpp tcp_socket.cpp -lpthread
-
 ### Running
 
 To run the server:
 
-* ./server 9999
+* ./server_example 9999
 
 You can then telnet to the server; the example by default will echo back your input:
 

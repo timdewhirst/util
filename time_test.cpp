@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
     {
         times[i] = util::get_ns_since_epoch();
         unique_times.insert(times[i]);
-        std::this_thread::sleep_for(10ns);
+        std::this_thread::sleep_for(10us);
     }
 
     ASSERT_EQUAL( times.size(), unique_times.size() );

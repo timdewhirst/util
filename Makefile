@@ -1,6 +1,6 @@
 
 TESTABLE = hex_test hexdump_test string_utils_test time_test raii_test uuid_test
-EXAMPLES = hexdump_example simple_unit_test_example uuid_example
+EXAMPLES = hexdump_example simple_unit_test_example uuid_example client_example server_example
 CXX_FLAGS = -Wall -Werror -std=c++20 -DTEST_MAIN
 LD_FLAGS =
 
@@ -21,6 +21,12 @@ clean:
 	rm -rf a.out*
 	rm -f *~
 	rm -rf *.dSYM
+
+client_example: client_main.cpp tcp_socket.cpp
+	$(CXX) -o client_example $(CXX_FLAGS) $^ -lpthread
+
+server_example: server_main.cpp tcp_server.cpp tcp_socket.cpp
+	$(CXX) -o server_example $(CXX_FLAGS) $^ -lpthread
 
 hexdump_example: hexdump.cpp hexdump_example.cpp
 	$(CXX) -o hexdump_example $(CXX_FLAGS) $^
