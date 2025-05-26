@@ -82,7 +82,7 @@ namespace {
         typename = std::enable_if_t<
             util::is_one_of_v<T, uint8_t, uint16_t, uint32_t, uint64_t>>
         >
-    constexpr T be_convert(T v, size_t count = sizeof(T))
+    constexpr T be_convert(T v, size_t byte_count = sizeof(T))
     {
         if constexpr ( __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__ )
         {
@@ -90,7 +90,7 @@ namespace {
             return v;
         }
 
-        v <<= ( (sizeof(T) - count) << 3 );
+        v <<= ( (sizeof(T) - byte_count) << 3 );
         return swap_endian(v);
     }
 
@@ -168,11 +168,8 @@ namespace util {
     uuid uuid::create_v4()
     {
         uuid result;
-        copy_value_to_bytes(&result.data[0],  4, generate_rand<uint32_t>());
-        copy_value_to_bytes(&result.data[4],  2, generate_rand<uint16_t>());
-        copy_value_to_bytes(&result.data[6],  2, (uint16_t)((generate_rand<uint16_t>() & 0x0fff) | 0x4000));
-        copy_value_to_bytes(&result.data[8],  2, (uint16_t)(generate_rand<uint16_t>() & 0x3fff + 0x8000));
-        copy_value_to_bytes(&result.data[10], 6, generate_rand<uint64_t>());
+        copy_value_to_bytes(&result.data[0],  8, generate_rand<uint64_t>());
+        copy_value_to_bytes(&result.data[8],  8, generate_rand<uint64_t>());
 
         return result;
     }

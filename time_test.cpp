@@ -2,6 +2,7 @@
 #include "time.hpp"
 
 // std
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

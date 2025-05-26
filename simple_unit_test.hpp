@@ -6,13 +6,21 @@
 #include <iostream>
 #include <sstream>
 #include <typeinfo>
+#include <type_traits>
 
 namespace util::test {
 
     /// default equality check, proxies to operator==
-    inline bool equal(const auto& lhs, const auto& rhs)
+    template <
+      typename V,
+      typename E,
+      typename = std::enable_if_t<
+        std::is_convertible_v<E, V>
+      >
+    >
+    inline bool equal(const V& v, const E& e)
     {
-        return lhs == rhs;
+        return v == (V)e;
     }
 
     static int total_tests = 0;

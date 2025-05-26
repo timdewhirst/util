@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <cstddef>
+#include <cstdint>
 #include <string>
 
 /// construct a string matching the output of

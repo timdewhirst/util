@@ -3,6 +3,8 @@
 
 // std
 #include <array>
+#include <cstddef>
+#include <cstdint>
 
 // util
 #include "traits.hpp"

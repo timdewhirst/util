@@ -1,7 +1,7 @@
 
 TESTABLE = hex_test hexdump_test string_utils_test time_test raii_test uuid_test
 EXAMPLES = hexdump_example simple_unit_test_example uuid_example client_example server_example
-CXX_FLAGS = -Wall -Werror -std=c++20 -DTEST_MAIN
+CXX_FLAGS = -Wall -Werror -std=c++23 -DTEST_MAIN
 LD_FLAGS =
 
 .PHONY: all

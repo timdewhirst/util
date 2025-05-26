@@ -2,6 +2,7 @@
 #include "uuid.hpp"
 
 // std
+#include <cstring>
 #include <iostream>
 #include <sstream>
 
