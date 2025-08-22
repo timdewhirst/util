@@ -2,32 +2,38 @@
 #pragma once
 
 // std
-#include <algorithm>
 #include <cctype>
+#include <cstring>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace util {
 
-    /// trim whitespace from the start and end of \a s
-    std::string trim(std::string s)
+    /// trim whitespace from the end of \a s
+    constexpr std::string_view rtrim(std::string_view s)
     {
-        if ( s.empty() )
-            return s;
+        size_t i=0;
+        for ( auto I = s.crbegin(); std::isspace(*I) && I != s.crend(); ++I )
+            ++i;
 
-        size_t start = 0;
-        while ( std::isspace(s[start]) && start < s.size() )
-            ++start;
+        return s.substr(0, s.size() - i);
+    }
 
-        // short circuit - if start == s.size()-1 then the entire string was whitespace
-        if ( start == s.size()-1 )
-            return s;
+    /// trim whitespace from the start of \a s
+    constexpr std::string_view ltrim(std::string_view s)
+    {
+        size_t i=0;
+        for ( auto I = s.cbegin(); std::isspace(*I) && I != s.cend(); ++I )
+            ++i;
 
-        size_t end = s.size()-1;
-        while ( std::isspace(s[end]) && end > start )
-            --end;
+        return s.substr(i, s.size() - i);
+    }
 
-        return s.substr(start, end-start+1);
+    /// trim whitespace from the start and end of \a s
+    constexpr std::string_view trim(std::string_view s)
+    {
+        return ltrim(rtrim(s));
     }
 
     /// split \a s on char \a c; this will continue until the
@@ -36,33 +42,28 @@ namespace util {
     /// - split("a-bcd-ef-g", '-') -> ["a", "bcd", "ef", "g"]
     /// - split("a-bcd", '-') -> ["a", "bcd"]
     /// - split("a", '-') -> ["a"]
-    std::vector<std::string> split(const std::string& s, char c)
+    std::vector<std::string_view> split(std::string_view s, char c)
     {
         if ( s.empty() )
             return {};
 
-        std::vector<std::string> result;
+        std::vector<std::string_view> result;
 
-        auto I = s.cbegin();
-        const auto E = s.cend();
-
-        std::string current;
+        size_t p = 0, i = 0;
         while (true)
         {
-            if (*I == c || I == E)
+            if (s[i] == c || i == s.size())
             {
-                result.push_back(std::move(current));
-                current = std::string();
+                result.push_back(s.substr(p, i-p));
+                if ( i == s.size() )
+                    break;
+
+                p = ++i;
             }
             else
             {
-                current += *I;
+                ++i;
             }
-
-            if (I == E)
-                break;
-
-            ++I;
         }
 
         return result;
